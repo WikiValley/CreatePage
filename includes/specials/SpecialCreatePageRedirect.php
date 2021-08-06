@@ -35,7 +35,10 @@ class SpecialCreatePageRedirect extends UnlistedSpecialPage {
 	 */
 	public function execute( $subPage ) {
 		$req = $this->getRequest();
-		if ( $req->getCheck( 'pagename' ) ) {
+		# getCheck changed to getText because, if empty, the $title is null then exception
+		# To be improved: for now the user is redirected to the main page without explanation
+		# https://phabricator.wikimedia.org/T279813
+		if ( $req->getText( 'pagename' ) ) {
 			$pageName = $req->getText( 'pagename' );
 			$pageNamespace = $req->getText( 'pagens' );
 			if ( $pageNamespace == '' ||
